@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -21,13 +21,8 @@ const useStyles = makeStyles({
         zIndex: -1,
     },
     card: {
-        //position: 'absolute',
-        //top: '50%',
-        //left: '50%',
         width: 500,
         height: 400,
-        //marginLeft: -250,
-        //marginTop:  190,
         textAlign: 'center',
         paddingLeft: 50,
         paddingRight: 50,
@@ -64,12 +59,19 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-    }
+    },
+    weather: {
+        position: 'absolute',
+        top: 20,
+        left: 20,
+        fontWeight: 800,
+        opacity: 1,
+      }
 });
-
 
 export default () => {
     const [joke, setJoke] = useState('');
+    const [weather, setWeather] = useState('');
     const classes = useStyles();
 
     const myHeaders = new Headers();
@@ -91,9 +93,33 @@ export default () => {
             .catch(error => console.log('error', error));
     };
 
+    useEffect(() => {
+        const url = "https://dark-sky.p.rapidapi.com/41.43734803122302,2.1829782495544583?lang=es&units=auto";
+        fetch(url, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-key": "30d40c3001msh527354931e78864p172a86jsn02a0d70e4f72",
+                    "x-rapidapi-host": "dark-sky.p.rapidapi.com"
+            }
+        })
+        .then(response => {
+            if (response.ok) return response.json();
+        })
+        .then(data => {
+            console.log(data.currently.summary);
+            setWeather(data.currently.summary);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    }, []);
+
     return (
         <div>
             <div className={ classes.imageContainer }></div>
+            <Typography variant="body1" component="p" className={ classes.weather }>
+                Avui: { weather }
+            </Typography>
             <div className={ classes.wrapper }>
                 <Card className={ classes.card }>
                     <CardContent>
