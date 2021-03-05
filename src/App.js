@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Welcome from './components/Welcome';
 import JokePage from './components/JokePage';
 
 export default () => {
-    const [entered, setEntered] = useState(false);
-    const onClick = () => setEntered(true);
-
     return (
-        <>
-            { entered ? <JokePage /> : <Welcome onClick={ onClick } /> }
-        </>
+        <Router>
+            <Switch>
+                <Route exact path="/" component={ Welcome } />
+                <Route path="/joke" component={ JokePage } />
+            </Switch>
+        </Router>
     )
 };

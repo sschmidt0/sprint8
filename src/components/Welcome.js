@@ -1,6 +1,7 @@
 import { Typography } from "@material-ui/core";
 import Container from '@material-ui/core/Container';
 import Button from './Button';
+import { Link } from 'react-router-dom';
 
 export default (props) => (
   <Container style={{
@@ -11,6 +12,6 @@ export default (props) => (
     height: '100vh'
   }}>
     <Typography variant="h4">🤣🤣 Has vingut per riure una estoneta? 🤣🤣</Typography>
-    <Button onClick={ props.onClick } text="Entra i riu" />
+    <Link to="/joke"><Button text="Entra i riu"></Button></Link>
   </Container>
 );
