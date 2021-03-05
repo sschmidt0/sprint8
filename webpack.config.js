@@ -33,6 +33,8 @@ const processEnvPlugin = new webpack.DefinePlugin({
   },
 });
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
   target: 'web',
   entry: path.join(paths.SRC, 'index.js'),
@@ -47,6 +49,10 @@ module.exports = {
         test: /\.(js)$/,
         exclude: /node_modules/,
         use: 'babel-loader',
+      },
+      {
+        test: /\.(css)$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(jpg|jpeg|gif|png)$/,
@@ -104,5 +110,6 @@ module.exports = {
   plugins: [
     HtmlWebpackPluginConfig,
     processEnvPlugin,
+    new MiniCssExtractPlugin(),
   ],
 };
